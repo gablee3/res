@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이력서 v14 — 토스증권 PO 지원</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 2.5rem 2rem;
+    max-width: 840px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .section-label {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em;
+    color: #bbb; text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .divider { border: none; border-top: 1px solid #f0f0f0; margin: 1.75rem 0; }
+  .hl { font-weight: 600; color: #111; }
+
+  .name { font-size: 27px; font-weight: 700; color: #111; }
+  .title-line { font-size: 14px; color: #777; margin-top: 5px; }
+
+  .summary-box {
+    background: #f8f8f8; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin-top: 0.75rem;
+  }
+  .summary-text { font-size: 13.5px; line-height: 1.95; color: #222; }
+
+  .episode-box {
+    border: 1px solid #ebebeb; border-radius: 10px;
+    padding: 1.2rem 1.3rem; margin-top: 1rem;
+  }
+  .episode-eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.09em;
+    color: #bbb; text-transform: uppercase; margin-bottom: 0.55rem;
+  }
+  .episode-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 0.65rem; }
+  .episode-body { font-size: 13px; line-height: 1.92; color: #333; }
+  .episode-result {
+    display: inline-block; margin-top: 0.75rem;
+    font-size: 12px; background: #f3f3f3;
+    border-radius: 5px; padding: 4px 12px; color: #555;
+  }
+
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-top: 0.75rem;
+  }
+  .metric-card { background: #f8f8f8; border-radius: 8px; padding: 0.8rem 1rem; }
+  .metric-num { font-size: 22px; font-weight: 700; color: #111; }
+  .metric-label { font-size: 11px; color: #888; margin-top: 4px; line-height: 1.45; }
+
+  .exp-block { margin-bottom: 0.5rem; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .exp-company { font-size: 15px; font-weight: 700; color: #111; }
+  .exp-period { font-size: 11.5px; color: #bbb; white-space: nowrap; margin-left: 1rem; padding-top: 3px; }
+  .exp-role { font-size: 12.5px; color: #888; margin-bottom: 7px; }
+  .exp-intro {
+    font-size: 13px; line-height: 1.85; color: #555;
+    margin-bottom: 12px; padding: 9px 13px;
+    border-left: 3px solid #efefef;
+    background: #fafafa; border-radius: 0 6px 6px 0;
+  }
+
+
+
+  .ach-item {
+    border: 1px solid #f2f2f2; border-radius: 8px;
+    margin-bottom: 10px; overflow: hidden;
+  }
+  .ach-summary-row {
+    display: flex; align-items: flex-start;
+    gap: 10px; padding: 12px 14px;
+    cursor: pointer; user-select: none;
+  }
+  .ach-summary-row:hover { background: #fafafa; }
+  .ach-toggle {
+    font-size: 11px; color: #ccc; margin-top: 3px;
+    flex-shrink: 0; transition: transform 0.2s; line-height: 1;
+  }
+  .ach-toggle.open { transform: rotate(90deg); }
+  .ach-main { flex: 1; }
+  .ach-label {
+    font-size: 13px; font-weight: 600; color: #333;
+    letter-spacing: -0.01em; margin-bottom: 5px; line-height: 1.4;
+  }
+  .ach-story { font-size: 13px; line-height: 1.8; color: #444; margin-top: 2px; }
+  .ach-numbers {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
+  }
+  .num-chip {
+    font-size: 11px; background: #f5f7ff;
+    border: 1px solid #e2e6f8;
+    border-radius: 5px; padding: 2px 8px;
+    color: #5b6fa8; font-weight: 500;
+  }
+
+  .ach-detail {
+    display: none;
+    padding: 0 14px 13px 38px;
+    border-top: 1px solid #f5f5f5;
+  }
+  .ach-detail.open { display: block; }
+  .detail-block { margin-top: 11px; }
+  .detail-label {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em;
+    color: #ccc; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .detail-text { font-size: 12.5px; line-height: 1.82; color: #666; }
+  .hypothesis-text {
+    font-size: 12.5px; line-height: 1.82; color: #888;
+    font-style: italic; padding: 4px 10px;
+    border-left: 2px solid #e5e5e5;
+  }
+  .learning-text {
+    font-size: 12.5px; line-height: 1.82; color: #777;
+    padding: 5px 10px; background: #fafafa;
+    border-left: 2px solid #e0e0e0; border-radius: 0 4px 4px 0;
+  }
+  .next-cycle-text {
+    font-size: 12.5px; line-height: 1.82; color: #666;
+    padding: 5px 10px; background: #f5f8ff;
+    border-left: 2px solid #c0cfff; border-radius: 0 4px 4px 0;
+  }
+
+  .tags { margin-top: 10px; }
+  .tag {
+    display: inline-block; font-size: 11px;
+    background: #f4f4f4; border: 1px solid #eee;
+    border-radius: 4px; padding: 2px 8px;
+    margin-right: 5px; margin-top: 5px; color: #888;
+  }
+
+  .early-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .early-card { background: #f8f8f8; border-radius: 8px; padding: 0.8rem 1rem; }
+  .early-card-title { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 3px; }
+  .early-card-period { font-size: 11px; color: #bbb; margin-bottom: 6px; }
+  .early-card-body { font-size: 12px; color: #666; line-height: 1.72; }
+
+  /* ── IMAGE LAYOUT (v12 추가분) ── */
+  .img-block {
+    margin-top: 14px;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 13px;
+  }
+  .img-block-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    color: #ccc; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .img-ba {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .img-ba-item { position: relative; }
+  .img-ba-tag {
+    position: absolute; top: 8px; left: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 2px 8px; border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .img-ba-tag.before { background: #f0f0f0; color: #999; }
+  .img-ba-tag.after  { background: #111; color: #fff; }
+  .img-ba-item img,
+  .img-single img {
+    width: 100%; border-radius: 7px;
+    border: 1px solid #ebebeb; display: block;
+  }
+  .img-placeholder {
+    width: 100%; border-radius: 7px;
+    border: 1.5px dashed #e0e0e0;
+    background: #fafafa;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 180px; color: #ccc; font-size: 12px;
+  }
+  .img-single { margin-top: 0; }
+  .img-flow .img-placeholder { min-height: 120px; }
+  .img-caption {
+    font-size: 11px; color: #bbb; margin-top: 6px;
+    text-align: center; line-height: 1.5;
+  }
+  .ach-detail .img-block {
+    margin-left: -14px; margin-right: 0;
+    padding-left: 0;
+  }
+
+  /* ── METRIC PRIMARY HIGHLIGHT ── */
+  .metric-card.primary { background: #f0f4ff; }
+
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="section-label">토스증권 PO 지원 이력서 v14</div>
+<div class="name">홍길동</div>
+<div class="title-line">Platform Product Owner · 창업 포함 9년 · 0 to 1 플랫폼 빌더 · 현 그룹사 신규 서비스 기획팀장 재직 중</div>
+
+<hr class="divider">
+
+<!-- ══ SUMMARY ══ -->
+<div class="section-label">Professional Summary</div>
+<div class="summary-box">
+  <div class="summary-text">
+    O2O 플랫폼 공동창업을 시작으로, 블록체인 거래소·모빌리티·커머스 원앱까지 —
+    새로운 환경에서 즉시 팀과 퍼포먼스를 낼 수 있는 사람으로 판단되어 <span class="hl">그룹사의 가장 어려운 0 to 1 과제마다 스쿼드를 맡아 플랫폼을 직접 설계·성장시켜온 실행형 PO</span>입니다.<br>
+    일관되게 유지해온 설계 원칙이 하나 있습니다. <span class="hl">유저의 흐름을 거스르지 않는 설계.</span> 유저를 억지로 움직이려 할 때 서비스는 실패하고, 유저가 이미 가려는 방향에 다음 행동을 얹을 때 지표가 움직인다는 것을 반복된 실험과 실패를 통해 확인해왔습니다. 광고 CTR 0.36%→10%+·월매출 66배, 메인 개편 후 인당 참여율 +141%는 모두 이 원칙을 데이터로 검증한 결과입니다.<br>
+    복잡한 금융 개념 앞에서 <span class="hl">유저가 멈추는 지점이 어디인지 — 그 흐름을 읽고 설계하는 것</span>이 증권 도메인에서 제가 기여할 수 있는 지점입니다. 도메인 지식은 쌓을 수 있지만, 유저의 흐름을 읽는 감각은 9년의 실패가 만들어준 것입니다.
+  </div>
+</div>
+
+<!-- ══ FEATURED EPISODE ══ -->
+<div class="episode-box">
+  <div class="episode-eyebrow">나를 설명하는 한 장면</div>
+  <div class="episode-title">가설이 틀렸을 때 어떻게 하는가 — 웰컴미션 피벗</div>
+  <div class="episode-body">
+    앱테크 유저를 커머스로 전이시키는 것이 플랫폼의 핵심 BM 과제였습니다.
+    "미션이라는 친숙한 포맷이 커머스 진입 거부감을 낮출 것"이라는 가설로 웰컴미션을 설계했고,
+    커머스 방문율은 10배 올랐습니다. 하지만 구매 전환은 일어나지 않았습니다.<br><br>
+    데이터를 들여다보니 원인은 단순했습니다.
+    <span class="hl">가입 직후 쿠폰 하나로 구매까지 이어지는 것은, 유저 입장에서 초대형 허들이었습니다.</span>
+    유저의 흐름을 억지로 꺾으려 했던 것이 문제였습니다.<br><br>
+    가설이 틀렸음을 인정하고 팀과 논의 후 구조를 바꿨습니다.
+    쿠폰 대신 포인트를 모아가는 여정으로 재설계했습니다.
+    유저가 이미 가려는 방향 — 포인트를 쌓는 행동 — 위에 구매 시나리오를 얹었습니다.
+    유저의 흐름을 거스르지 않자, <span class="hl">구매 사이클이 3개월에서 1.5개월로 단축됐습니다.</span>
+    설계가 행동 패턴을 바꾼 것이 아니라, 행동 패턴 위에 설계를 맞춘 것입니다.
+  </div>
+  <span class="episode-result">Learning: 유저의 관성을 이기려 한 것이 실패 원인 — 흐름 위에 설계를 얹는 순간 지표가 움직였다</span>
+</div>
+
+<hr class="divider">
+
+<!-- ══ METRICS ══ -->
+<div class="section-label">핵심 임팩트 요약</div>
+<div class="metrics-grid">
+  <div class="metric-card primary">
+    <div class="metric-num">+141%</div>
+    <div class="metric-label">메인 개편 후<br>인당 챌린지 참여율</div>
+  </div>
+  <div class="metric-card primary">
+    <div class="metric-num">×66</div>
+    <div class="metric-label">광고 월매출 성장<br>(CTR 0.36%→10%+)</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-num">+20%p</div>
+    <div class="metric-label">차량 온보딩 완료율<br>(50% → 70%)</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-num">2,600만 원</div>
+    <div class="metric-label">운영비 월 절감<br>(API·인프라 자동화)</div>
+  </div>
+</div>
+
+
+<!-- ══ EXPERIENCE: ROUND ══ -->
+<div class="section-label">경력 상세</div>
+
+<div class="exp-block">
+  <div class="exp-header">
+    <div>
+      <div class="exp-company">라운드 (RROUND) · 앱테크 &amp; 커머스 원앱 플랫폼</div>
+      <div class="exp-role">플랫폼 기획팀장 · 기획 5명, 개발 3~5명, 디자인 2~3명 리드 · 메인 개편 TF장 (기획 4·디자인 2·데이터 2, 8명)</div>
+    </div>
+    <div class="exp-period">2023.03 — 2025.02 · 2년</div>
+  </div>
+  <div class="exp-intro">
+    페이·앱테크·모빌리티 3개 서비스를 통합하는 그룹사 최우선 전략 프로젝트.
+    <span class="hl">팀의 비전과 핵심 지표를 직접 정의하고</span>, 수익화 전략부터 서비스 간 트래픽 연계까지 의사결정을 주도했습니다.
+    스프린트 단위로 가설을 실험하고, 데이터로 실패를 확인하면 빠르게 피벗하는 방식으로 플랫폼을 성장시켰으며,
+    방향성에 이견이 있을 때는 <span class="hl">A/B 테스트를 판단 기준으로 삼아</span> 데이터가 논의를 마무리하도록 했습니다.
+    모바일 앱 환경에서 퍼널·리텐션·수익화의 모든 구간을 직접 설계하고 운영한 경험입니다.
+  </div>
+
+  <!-- R1 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">메인 개편 TF 리딩 — 8명 크로스펑셔널 구성·운영</div>
+        <div class="ach-numbers">
+          <span class="num-chip">체류시간 +51%</span>
+          <span class="num-chip">챌린지 방문 +107%</span>
+          <span class="num-chip">인당 참여 +141%</span>
+        </div>
+        <div class="ach-story">
+          런칭 이후 메인화면이 방향성을 잃고 핵심 지표가 정체되었습니다.
+          문제의 본질은 단순한 UI 개선이 아닌 <span class="hl">서비스가 무엇을 하는 앱인지 유저에게 전달하지 못하는 것</span>이었습니다.
+          이를 해결하기 위해 기획 4·디자인 2·데이터 2, 총 8명으로 구성된 크로스펑셔널 TF를 직접 구성하고 리딩했습니다.
+          TF 내에서 문제 정의부터 가설 수립, A/B 테스트 설계, 데이터 해석까지 의사결정 전 과정을 주도했으며 목표 달성 후 TF를 종료했습니다.
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">TF 구성 배경</div>
+        <div class="detail-text">기존 스쿼드 구조로는 메인 개편의 속도와 집중도를 확보하기 어렵다고 판단. 기획·디자인·데이터 직군을 묶은 전담 TF를 직접 제안·구성하고 TF장으로서 목표 설정과 운영 전반을 리딩. 핵심 지표 달성 후 TF 종료. 작업 우선순위는 트래픽 임팩트 → 유저 블로킹 여부 → BM 영향력 → 개발 난이도 순으로 판단했고, 방향이 불확실할 땐 A/B(필요시 A/B/C)로 가설을 검증해 결론을 냈습니다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">메인에서 챌린지로의 진입 마찰을 줄이고 서비스 정체성을 명확히 하면 체류시간과 참여 깊이가 동시에 오른다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">A/B 테스트에서 체류시간·챌린지 참여율 두 지표가 동시에 유의미하게 상승하는 경우를 성공으로 정의. 둘 중 하나만 오르는 경우는 구조 개선이 아닌 일시적 효과로 판단. Airbridge 이벤트 데이터와 Snowflake 대시보드로 직접 모니터링.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">크로스펑셔널 TF는 속도와 집중도를 높이지만, TF장이 문제 정의와 판단 기준을 명확히 하지 않으면 방향이 흐려짐. 팀이 같은 기준으로 성공과 실패를 판단할 수 있도록 만드는 것이 TF 리더의 핵심 역할.</div>
+      </div>
+      <!-- ── IMAGE: 메인 개편 Before/After ── -->
+      <div class="img-block">
+        <div class="img-block-label">메인화면 개편 Before / After</div>
+        <div class="img-ba">
+          <div class="img-ba-item">
+            <span class="img-ba-tag before">Before</span>
+            <div class="img-placeholder" style="min-height:320px;">메인화면 개편 전 스크린샷</div>
+            <div class="img-caption">개편 전 — 서비스 정체성 불명확, 핵심 지표 정체</div>
+          </div>
+          <div class="img-ba-item">
+            <span class="img-ba-tag after">After</span>
+            <div class="img-placeholder" style="min-height:320px;">메인화면 개편 후 스크린샷</div>
+            <div class="img-caption">개편 후 — 체류시간 +51% · 인당 챌린지 참여 +141%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R2 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">앱테크→커머스 전이 설계 — 유저 관성 위에 구매 여정을 얹다</div>
+        <div class="ach-numbers">
+          <span class="num-chip">커머스 방문 +44% (웰컴미션 이후)</span>
+          <span class="num-chip">구매 사이클 3개월 → 1.5개월 단축 (피벗 후)</span>
+        </div>
+        <div class="ach-story">
+          현금 인출이 목적인 앱테크 유저들이 커머스로 넘어오지 않는 것을 플랫폼 BM의 핵심 병목으로 직접 정의했습니다.
+          미션 포맷을 커머스 탐색에 이식했고 방문율은 10배 올랐지만, 구매 전환은 없었습니다.
+          <span class="hl">가입 직후 구매는 초대형 허들</span>이었음을 데이터로 확인 후,
+          팀과 논의해 포인트 적립 여정으로 재설계하여 구매 사이클을 단축시켰습니다.
+          이 결과를 기반으로 "포인트 적립 시간을 단축하면 구매를 더 앞당길 수 있다"는 다음 가설로 할인형 챌린지를 기획했으나, 앱테크 유저 특성상 포인트 축적 없이는 지출 허들이 낮아지지 않음을 다시 확인했습니다. <span class="hl">실패 자체보다 그 원인을 유저 기반의 특성으로 특정한 것이 다음 기획의 출발점</span>이 됐습니다.
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설 (1차)</div>
+        <div class="hypothesis-text">미션이라는 친숙한 포맷이 커머스 진입 거부감을 낮출 것이다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">실패 원인 및 피벗</div>
+        <div class="detail-text">쿠폰 전환율 저조. 가입 직후 구매는 유저에게 여전히 초대형 허들임을 데이터로 확인. 단발 보상(쿠폰) → 포인트 적립 여정으로 구조 재설계.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">다음 사이클 (2차 가설 및 결과)</div>
+        <div class="next-cycle-text">가설: 포인트 적립 시간이 단축되면 구매 전환이 더 빨라진다 → 할인형 챌린지 기획. 결과: 앱테크 유저는 충분한 포인트 없이는 지출 자체에 저항이 있음을 재확인. 유저 기반 특성이 BM 설계의 상한임을 학습.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">유저 관성을 꺾으려 한 것이 실패 원인. 관성을 이용해 단계별 성공 경험을 쌓게 하는 구조가 서비스 피벗의 핵심. 단, 유저 기반의 지출 심리가 BM 설계의 전제조건이 돼야 한다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R3 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">광고 수익화 — 저효율 지면 정리로 CTR·매출 동시 성장</div>
+        <div class="ach-numbers">
+          <span class="num-chip">CTR 0.36% → 7.22% → 12월 10%+</span>
+          <span class="num-chip">광고 월매출 ×66 (10~11월 기준)</span>
+        </div>
+        <div class="ach-story">
+          수익화 지표를 직접 설정하고 200여 개 지면 운영 구조를 설계했습니다.
+          초기에는 지면을 넓히는 방향으로 갔지만, CTR 데이터를 분석하니
+          저효율 지면이 유저에게 불필요한 광고를 노출시켜 UX를 저하시키는 동시에
+          전체 효율 지표를 끌어내리고 있었습니다.
+          <span class="hl">미사용·저효율 지면을 과감히 정리해 약 절반 수준으로 축소</span>했고,
+          유저 노출을 최적화하자 CTR과 매출이 동시에 올랐습니다.
+          제거하는 결정이 수익을 키웠습니다.
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">지면 수 확장보다 저효율 지면 정리를 통한 유저 노출 최적화가 CTR과 총 수익을 동시에 끌어올린다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">지면 축소 후 CTR과 월매출이 동시에 상승하는 경우를 성공으로 정의. 지면 감소에도 수익이 오르면 유저 노출 최적화 전략이 유효한 것으로 판단. 애드팝콘 CTR 데이터와 월매출 수치를 직접 비교해 판단.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">효율 역산 없는 지면 확장은 유저 UX 저하와 지표 노이즈를 동시에 유발. 데이터 기반으로 제거하는 결정이 유저 경험과 수익을 함께 키웠다.</div>
+      </div>
+      <!-- ── 광고 매출 추이 차트 ── -->
+      <div class="img-block">
+        <div class="img-block-label">광고 매출 추이 — 6월 런칭 → 12월 최고점 (주차별)</div>
+        <div class="img-single">
+          <div style="width:100%;background:#fafafa;border-radius:7px;border:1px solid #ebebeb;padding:18px 20px 14px;">
+            <svg viewBox="0 0 740 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;overflow:visible;">
+              <defs>
+                <linearGradient id="adBlue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4f6ef7" stop-opacity="0.18"/>
+                  <stop offset="100%" stop-color="#4f6ef7" stop-opacity="0.02"/>
+                </linearGradient>
+              </defs>
+
+              <!-- ── 지면 최적화 구간 (8월4주 x=279.6 ~ 9월3주 x=373.8) ── -->
+              <rect x="279.6" y="10" width="94.2" height="150" fill="#e85c4a" fill-opacity="0.07" rx="3"/>
+              <text x="326.7" y="23" text-anchor="middle" font-size="7.5" fill="#e85c4a" font-weight="700">지면 최적화</text>
+
+              <!-- grid -->
+              <line x1="44" y1="10"  x2="44"  y2="160" stroke="#efefef" stroke-width="1"/>
+              <line x1="44" y1="160" x2="700" y2="160" stroke="#e8e8e8" stroke-width="1"/>
+              <line x1="44" y1="122" x2="700" y2="122" stroke="#f3f3f3" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="44" y1="84"  x2="700" y2="84"  stroke="#f3f3f3" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="44" y1="46"  x2="700" y2="46"  stroke="#f3f3f3" stroke-width="1" stroke-dasharray="3,3"/>
+
+              <!-- y labels (max=274만, 68.5만 간격) -->
+              <text x="40" y="164" text-anchor="end" font-size="8" fill="#ccc">0</text>
+              <text x="40" y="126" text-anchor="end" font-size="8" fill="#ccc">70만</text>
+              <text x="40" y="88"  text-anchor="end" font-size="8" fill="#ccc">140만</text>
+              <text x="40" y="50"  text-anchor="end" font-size="8" fill="#ccc">210만</text>
+
+              <!-- area fill (28포인트, ~12월4주) -->
+              <polygon points="
+                44.0,158.8 67.6,158.7 91.1,159.0 114.7,159.1
+                138.2,150.6 161.8,146.0 185.3,148.5 208.9,147.7
+                232.4,145.3 256.0,144.9 279.6,135.8 303.1,124.2
+                326.7,123.5 350.2,92.5 373.8,82.0 397.3,78.0
+                420.9,68.8 444.4,69.5 468.0,59.5 491.6,42.0
+                515.1,62.3 538.7,59.2 562.2,67.2 585.8,51.0
+                609.3,75.7 632.9,61.0 656.4,53.0 680.0,15.0
+                680.0,160 44.0,160"
+                fill="url(#adBlue)"/>
+
+              <!-- line -->
+              <polyline points="
+                44.0,158.8 67.6,158.7 91.1,159.0 114.7,159.1
+                138.2,150.6 161.8,146.0 185.3,148.5 208.9,147.7
+                232.4,145.3 256.0,144.9 279.6,135.8 303.1,124.2
+                326.7,123.5 350.2,92.5 373.8,82.0 397.3,78.0
+                420.9,68.8 444.4,69.5 468.0,59.5 491.6,42.0
+                515.1,62.3 538.7,59.2 562.2,67.2 585.8,51.0
+                609.3,75.7 632.9,61.0 656.4,53.0 680.0,15.0"
+                fill="none" stroke="#4f6ef7" stroke-width="2" stroke-linejoin="round"/>
+
+              <!-- VAD 도입 (7월2주 x=138.2 y=150.6) -->
+              <line x1="138.2" y1="150.6" x2="138.2" y2="175" stroke="#c5caee" stroke-width="1" stroke-dasharray="2,2"/>
+              <circle cx="138.2" cy="150.6" r="3.5" fill="#4f6ef7"/>
+              <text x="138.2" y="184" text-anchor="middle" font-size="8" fill="#777" font-weight="600">VAD 도입</text>
+              <text x="138.2" y="193" text-anchor="middle" font-size="7" fill="#bbb">7월 2주</text>
+
+              <!-- MVP 적용 (9월2주 x=350.2 y=92.5) -->
+              <line x1="350.2" y1="92.5" x2="350.2" y2="175" stroke="#c5caee" stroke-width="1" stroke-dasharray="2,2"/>
+              <circle cx="350.2" cy="92.5" r="3.5" fill="#4f6ef7"/>
+              <text x="350.2" y="184" text-anchor="middle" font-size="8" fill="#777" font-weight="600">MVP 적용</text>
+              <text x="350.2" y="193" text-anchor="middle" font-size="7" fill="#bbb">9월 2주</text>
+
+              <!-- 메인 개편 (10월1주 x=420.9 y=68.8) — 가장 강조 -->
+              <line x1="420.9" y1="68.8" x2="420.9" y2="175" stroke="#e85c4a" stroke-width="1.2" stroke-dasharray="2,2"/>
+              <circle cx="420.9" cy="68.8" r="4.5" fill="#e85c4a"/>
+              <text x="420.9" y="184" text-anchor="middle" font-size="8.5" fill="#e85c4a" font-weight="700">메인 개편</text>
+              <text x="420.9" y="193" text-anchor="middle" font-size="7" fill="#f0a098">10월 1주</text>
+
+              <!-- 12월4주 최고점 (x=680 y=15) -->
+              <circle cx="680.0" cy="15.0" r="4" fill="#e85c4a"/>
+              <text x="668" y="11" text-anchor="end" font-size="8" fill="#e85c4a" font-weight="700">275만</text>
+
+              <!-- x축 월 레이블 -->
+              <text x="44"   y="174" text-anchor="middle" font-size="7" fill="#ccc">6월</text>
+              <text x="138.2" y="174" text-anchor="middle" font-size="7" fill="#ccc">7월</text>
+              <text x="208.9" y="174" text-anchor="middle" font-size="7" fill="#ccc">8월</text>
+              <text x="326.7" y="174" text-anchor="middle" font-size="7" fill="#ccc">9월</text>
+              <text x="420.9" y="174" text-anchor="middle" font-size="7" fill="#ccc">10월</text>
+              <text x="515.1" y="174" text-anchor="middle" font-size="7" fill="#ccc">11월</text>
+              <text x="609.3" y="174" text-anchor="middle" font-size="7" fill="#ccc">12월</text>
+            </svg>
+          </div>
+          <div class="img-caption">광고 매출 주차별 추이 (단위: 원) · 8~9월 지면 최적화 구간: 저효율 지면 정리 → CTR·매출 동시 상승 · 12월4주 275만 원 최고점 · 12월 실측 CTR 평균 10.12%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R4 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">챌린지 MVP 반복 실험 — 보상 구조가 리텐션을 결정한다</div>
+        <div class="ach-numbers">
+          <span class="num-chip">일평균 참여자 1.1만명</span>
+          <span class="num-chip">재참여율 90%</span>
+          <span class="num-chip">MVP 매출 기여 37%</span>
+        </div>
+        <div class="ach-story">
+          플랫폼 리텐션을 높이기 위해 카드게임·스트레칭 등 여러 챌린지 MVP를 순차적으로 실험했습니다.
+          공통적으로 지속 참여율이 낮았고, 분석 결과 콘텐츠가 아닌
+          <span class="hl">보상 구조가 리텐션의 핵심 변수</span>임을 확인했습니다.
+          보상 체계를 재설계하고 행운퀴즈로 전환한 결과 MVP 중 가장 높은 매출 기여를 달성했습니다.
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">보상 구조가 콘텐츠 자체보다 리텐션에 더 직접적인 영향을 미친다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">실패한 MVP와 판단 기준</div>
+        <div class="detail-text">카드게임: 참여 허들 완화(제한시간 2초 증가)·테마 적용(할로윈) 2회 개선 시도 후에도 재참여율 기준치 미달 — 콘텐츠 문제가 아닌 보상 구조 문제로 판단해 피벗 결정. 스트레칭: 광고 재참여 시간 4시간→2시간 단축 후 커버율 15%p 개선됐으나, 챌린지 전체 리텐션 관점에서 보상 체계 재설계가 더 효율적이라고 판단. 두 케이스 모두 Snowflake 대시보드 지표를 기준으로 피벗 판단.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">빠른 실패와 피벗이 최적 모델을 찾는 가장 효율적인 경로. 콘텐츠 다양성보다 보상 설계가 핵심 변수.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R5 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">서비스 간 Cross-Activation — 만보기→경매 유저 흐름 연계</div>
+        <div class="ach-numbers">
+          <span class="num-chip">경매 참여자 +72.9%</span>
+          <span class="num-chip">입찰건수 +20.8%</span>
+          <span class="num-chip">신규 가입 15,395명</span>
+          <span class="num-chip">통합 온보딩 동의율 57%</span>
+        </div>
+        <div class="ach-story">
+          플랫폼에서 가장 많이 쓰이는 기능인 만보기가 보상 획득 이후 추가 액션 없이 끊기는 것을
+          트래픽 연계의 핵심 병목으로 직접 정의했습니다.
+          <span class="hl">가장 트래픽이 많은 진입점에 연계 경로를 붙이면 Cross-Activation이 일어난다</span>는 가설로 만보기 → 경매 경로를 설계했습니다.
+          초기엔 챌린지 간 강제 연결도 시도했지만, 유저는 본인이 원하는 것을 하려는 의지가 강해
+          <span class="hl">아무거나 제안하면 무시된다</span>는 것을 데이터로 확인했습니다.
+          유저가 자연스럽게 가려는 방향에만 연계점을 놓는 방식으로 재설계했습니다 — 흐름을 거스르지 않자 경로가 작동했습니다.
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">트래픽이 가장 많은 기능(만보기)에 연계 경로를 붙이면 별도 마케팅 없이 Cross-Activation이 일어난다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">실패 및 피벗</div>
+        <div class="detail-text">챌린지 간 순차 연결 시도 → 유저는 제안된 다음 챌린지가 아닌 본인이 원하는 것으로 이동. "연계 경로는 유저의 자연스러운 다음 행동에 맞닿아야 한다"는 원칙으로 재설계.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">적용 전후 7일 Airbridge 데이터 직접 비교. 만보기 유입 유저의 경매 참여·입찰 행동을 직접 추적. 학습 효과로 초기 대비 소폭 하락했으나, 트래픽 연계 관점에서 구조적 경로가 작동했음을 확인해 성공으로 판단.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">Cross-Activation은 경로의 수가 아니라 유저 행동 흐름과의 정합성이 결정함. 플랫폼이 원하는 경로가 아닌 유저가 자연스럽게 가려는 방향에 연계점을 놓아야 한다.</div>
+      </div>
+      <!-- ── IMAGE: Cross-Activation 플로우 ── -->
+      <div class="img-block img-flow">
+        <div class="img-block-label">Cross-Activation 연계 경로 설계</div>
+        <div class="img-single">
+          <div class="img-placeholder" style="min-height:120px;">만보기 → 경매 연계 플로우 다이어그램 (실패한 강제 연결 경로 vs 재설계된 자연 흐름 경로 비교)</div>
+          <div class="img-caption">경매 참여자 +72.9% · 입찰건수 +20.8%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">모바일 퍼널 설계</span><span class="tag">지표 정의·OKR</span><span class="tag">A/B 테스트</span>
+    <span class="tag">광고 수익화</span><span class="tag">Cross-Activation</span><span class="tag">스쿼드 리드</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ EXPERIENCE: WHISTLE ══ -->
+<div class="exp-block">
+  <div class="exp-header">
+    <div>
+      <div class="exp-company">휘슬 (Whistle) · 차량번호 기반 모빌리티 플랫폼</div>
+      <div class="exp-role">서비스 기획 · PO · 그룹사 차출 · 온보딩~커뮤니티 전 구간 담당</div>
+    </div>
+    <div class="exp-period">2019 — 2023 · 4년</div>
+  </div>
+  <div class="exp-intro">
+    모빌리티 플랫폼의 핵심 과제를 맡아 온보딩 최적화, 운영 자동화, B2B 제휴 채널 확장,
+    커뮤니티 플랫폼 성장 전략까지 서비스의 전 구간을 담당했습니다.
+    월 1회 정기 업데이트 사이클로 팀과 함께 개선 과제를 논의·적용했으며,
+    <span class="hl">모바일 앱 환경에서 유저 획득·리텐션·수익화를 동시에 설계하고 운영</span>한 밀도 높은 4년이었습니다.
+  </div>
+
+  <!-- W1 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">온보딩 자동화</div>
+        <div class="ach-story">
+          차량 등록 완료율 50% 정체를 성장 병목으로 직접 정의하고 원인을 분석했습니다.
+          가입과 차량등록이 분리된 구조가 심리적 허들임을 데이터로 확인했습니다.
+          <span class="hl">"차량번호 하나만 입력하면 나머지는 자동으로"</span> — 단 하나의 원칙으로 플로우를 재설계했습니다.
+          잔여 30% 이탈은 타명의 차량 등록 수요로 파악했으나, 현행 정책 구조상 수용 불가로 판단해 차기 과제로 정의했습니다.
+        </div>
+        <div class="ach-numbers">
+          <span class="num-chip">완료율 50% → 70% (+20%p)</span>
+          <span class="num-chip">가입 소요시간 28% 단축</span>
+          <span class="num-chip">수기 심사 50% 감소</span>
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">차량번호 하나로 입력을 자동화하고 가입·등록 플로우를 통합하면 완료율이 유의미하게 오를 것이다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">한계 및 다음 과제</div>
+        <div class="detail-text">잔여 30% 이탈 원인 = 타명의 차량 등록 수요. 현행 정책·시스템 구조상 수용 불가로 판단, 차기 정책 설계 과제로 정의.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">UX 최적화의 상한은 정책 설계가 결정함. 기술보다 정책이 선행돼야 하는 병목이 존재한다.</div>
+      </div>
+      <!-- ── IMAGE: 온보딩 플로우 Before/After ── -->
+      <div class="img-block">
+        <div class="img-block-label">온보딩 플로우 개선 Before / After</div>
+        <div class="img-ba">
+          <div class="img-ba-item">
+            <span class="img-ba-tag before">Before</span>
+            <div class="img-placeholder" style="min-height:400px;">가입 + 차량등록 분리 플로우 스크린샷</div>
+            <div class="img-caption">개선 전 — 가입·등록 분리 구조, 완료율 50% 정체</div>
+          </div>
+          <div class="img-ba-item">
+            <span class="img-ba-tag after">After</span>
+            <div class="img-placeholder" style="min-height:400px;">차량번호 하나로 통합된 플로우 스크린샷</div>
+            <div class="img-caption">개선 후 — 완료율 70% (+20%p) · 가입 소요시간 28% 단축</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- W2 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">운영비 절감 · API 자동화</div>
+        <div class="ach-story">
+          서비스가 성장할수록 운영 고정비가 함께 늘어나는 구조를 직접 모니터링했습니다.
+          비용 병목이 되는 API를 식별하고 자동화·직연동으로 대체하는 방식으로 지속 절감했습니다.
+          <span class="hl">운영비 절감이 곧 성장 여력</span>이라는 관점으로 접근했습니다.
+        </div>
+        <div class="ach-numbers">
+          <span class="num-chip">원부 API 월 1,500만 원 절감</span>
+          <span class="num-chip">하이패스 직연동 월 900만</span>
+          <span class="num-chip">CDN 구조 변경 월 200만</span>
+          <span class="num-chip">총 월 약 2,600만 원 절감</span>
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">접근 방식</div>
+        <div class="detail-text">증가하는 운영비를 지속 모니터링 → 병목 API 식별 → 자동화·직연동 교체. 원부조회 API 자동화(2,000만 → 500만), 하이패스 직연동, CDN 상품 변경 순차 적용.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- W3 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">제휴 기능 모듈화 · 그룹사 자산화</div>
+        <div class="ach-story">
+          유료 마케팅 없이 지속 가능한 신규 유저 유입 구조를 만드는 것을 목표로 설정했습니다.
+          현대차(마이현대) 제휴 연동 가입을 구축해 <span class="hl">비용 없이 일평균 200~400명의 신규 가입</span>을 확보했습니다.
+          여기서 멈추지 않고 단속알림 서비스 자체를 <span class="hl">독립 모듈로 설계</span>했습니다.
+          이 모듈은 이후 그룹사 여행 관련 서비스 '여가생활안심보호'에 그대로 이식되어 재적용됐습니다.
+          하나의 기능을 플랫폼 내 자산이 아닌 <span class="hl">그룹사 전체가 재사용 가능한 인프라로 확장</span>한 설계였습니다.
+        </div>
+        <div class="ach-numbers">
+          <span class="num-chip">일평균 신규 가입 200~400명 무비용</span>
+          <span class="num-chip">모듈 그룹사 타 서비스 재적용 (여가생활안심보호)</span>
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">접근 방식</div>
+        <div class="detail-text">그룹사 네임밸류 활용, 마이현대 제휴 채널을 통한 제로 비용 유입 경로 설계. 단속알림 기능을 서비스 종속 구조가 아닌 독립 모듈로 설계하여 그룹사 내 재사용 가능한 자산으로 구조화.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">제휴 채널을 통한 신규 가입이 유료 마케팅 없이 지속적으로 발생하는 것을 성공으로 정의. 추가로 모듈이 타 서비스에 실제 적용됐을 때 재사용 가능한 자산으로서의 가치를 확인.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">기능 설계 단계에서 모듈화를 전제하면 단일 서비스의 성과를 그룹사 전체 자산으로 확장할 수 있다. 플랫폼 PO의 역할은 서비스 내 최적화에 그치지 않고 조직 전체의 재사용 가능성을 설계하는 것까지 포함한다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- W4 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">단속알림 인증제 · 데이터 기반 MAU 리텐션 설계</div>
+        <div class="ach-story">
+          휘슬은 본질적으로 보험성 서비스입니다. <span class="hl">한 번 설치하면 재방문 이유가 없는 구조</span>가 MAU의 핵심 병목이었습니다.
+          단속알림 인증제는 유저 입장에서 불편하게 느껴질 수 있는 장치였지만,
+          데이터를 보면 차량 소유자들이 가장 민감하게 반응하는 것은 '단속'이 아니라 '내 차 정보가 어디 쓰이는가'였습니다.
+          <span class="hl">'개인정보 보호' 관점으로 재패키징하자</span> — 같은 기능이 민원 없이 MAU 견인 장치로 정착했습니다.
+          동시에 문자 발송을 카카오 채널로 전환해 발송 비용도 함께 절감했습니다.
+          유저가 이미 갖고 있는 불안의 흐름을 거스르지 않고, 그 위에 서비스를 얹은 설계였습니다.
+        </div>
+        <div class="ach-numbers">
+          <span class="num-chip">MAU 인입률 15% 이상</span>
+          <span class="num-chip">문자 → 카카오 전환 발송 비용 절감</span>
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">차량 소유자의 '정보 불안' 감정을 정기 인증 동기로 전환하면, 보험성 서비스의 재방문 병목을 구조적으로 해결할 수 있다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">인증제 도입 후 MAU 내 정기 재방문 유저 비율 증가를 성공으로 정의. 민원 발생 없이 전 회원 대상 적용이 안착된 시점을 구조적 성공으로 판단. 발송 비용 절감은 부수 목표로 함께 달성.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">유저 데이터에서 '정보 불안'을 핵심 감정으로 읽고, 개인정보 보호 키워드로 패키징하여 전 회원 대상 민원 없이 MAU 견인 장치로 정착. 리텐션 설계의 본질은 앱을 열 이유를 만드는 것이 아니라 유저가 이미 갖고 있는 감정 위에 행동을 얹는 것.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- W5 -->
+  <div class="ach-item">
+    <div class="ach-summary-row" onclick="toggle(this)">
+      <span class="ach-toggle">▶</span>
+      <div class="ach-main">
+        <div class="ach-label">커뮤니티 플랫폼 성장 전략</div>
+        <div class="ach-story">
+          서포터즈 운영만으로는 커뮤니티 트래픽 성장에 한계가 있었습니다.
+          씨드 콘텐츠 전략으로 전환했지만, 처음 집중했던 <span class="hl">차량 정보성 콘텐츠는 반응이 없었습니다.</span>
+          데이터를 들여다보니 전체 이용자의 30%가 부산 등록 차량이었습니다.
+          이 데이터를 기반으로 '부산 교통문화'라는 주제의 글을 금요일 저녁에 의도적으로 배포했고,
+          주말 내내 사용자 간 인터랙션이 폭발했습니다.
+          <span class="hl">유저가 원하는 것은 정보가 아니라 자신의 이야기였습니다.</span>
+          이후 커뮤니티 플랫폼을 단순 게시판이 아닌 <span class="hl">감정 기반 트래픽 엔진으로 재정의</span>하고 운영했습니다.
+        </div>
+        <div class="ach-numbers">
+          <span class="num-chip">방문자 3.8배 (25만 → 95만)</span>
+          <span class="num-chip">광고 매출 3배 성장</span>
+        </div>
+      </div>
+    </div>
+    <div class="ach-detail">
+      <div class="detail-block">
+        <div class="detail-label">가설</div>
+        <div class="hypothesis-text">정보성 콘텐츠보다 유저 감정을 건드리는 콘텐츠가 커뮤니티 참여를 폭발시킨다.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">실패 및 피벗</div>
+        <div class="detail-text">초기 차량 정보성 콘텐츠: 볼거리 제공으로 트래픽을 끌 것이라 가정했으나 반응 없음. 유저 데이터(부산 등록 30%) 기반으로 지역 감정을 자극하는 콘텐츠로 피벗 → 즉각적인 인터랙션 폭발 확인.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">성공 판단 기준</div>
+        <div class="detail-text">트래픽 수치(방문자 3.8배) 달성은 성공으로 판단. 단, 유저가 자발적으로 콘텐츠를 생산하는 단계까지는 유도하지 못했음 — 씨드 콘텐츠 의존 구조에서 벗어나지 못한 것을 미달성 과제로 정의.</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Learning</div>
+        <div class="learning-text">커뮤니티의 핵심 변수는 콘텐츠 퀄리티가 아니라 유저의 감정 개입 여부. 트래픽을 끌어올리는 것과 자발적 생산자를 만드는 것은 별개의 과제이며, 후자를 위한 별도 설계가 필요했음.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">모바일 온보딩</span><span class="tag">API 자동화</span><span class="tag">운영비 절감</span>
+    <span class="tag">기능 모듈화</span><span class="tag">MAU 리텐션</span><span class="tag">커뮤니티 플랫폼</span><span class="tag">콘텐츠 전략</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ EARLY CAREER ══ -->
+<div class="section-label">이전 경력 (Professional Roots)</div>
+<div class="early-grid">
+  <div class="early-card">
+    <div class="early-card-title">블록체인 거래소 · 기획</div>
+    <div class="early-card-period">2018 — 2019 · 1년 · 동일 그룹사 법인</div>
+    <div class="early-card-body">
+      그룹사 신규 금융 기술 시장 진출의 초기 멤버로 합류.
+      암호화폐 거래소의 자산 관리, 입출금 플로우, KYC 프로세스 설계.
+      보안·정산·트랜잭션 구조에 대한 기술적 이해 확보.
+      금융 서비스의 핵심 구조를 처음 다룬 경험 — 이후 증권 서비스 이해의 기반.
+    </div>
+  </div>
+  <div class="early-card">
+    <div class="early-card-title">O2O 여행 플랫폼 스타트업 · 공동창업</div>
+    <div class="early-card-period">2016 — 2018 · 2년</div>
+    <div class="early-card-body">
+      창업 멤버로서 서비스 A to Z 전 과정 수행.
+      제한된 리소스 내 사용자 인터뷰와 수동 매칭으로 PMF 검증.
+      공급자·수요자 매칭 구조 설계 및 BM 실험.
+      데이터 없이 가설을 세우고 발로 뛰어 검증하던 경험이 PO 감각의 출발점.
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(row) {
+  const toggle = row.querySelector('.ach-toggle');
+  const detail = row.parentElement.querySelector('.ach-detail');
+  const isOpen = detail.classList.contains('open');
+  detail.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+</script>
+
+</body>
+</html>
